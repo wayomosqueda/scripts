@@ -29,13 +29,7 @@ if ((Test-path HKLM:\SOFTWARE\7-Zip\) -eq $true) {
     }    
 }
 else {
-    Write-Host "Sorry, but it looks like you don't have a supported archiver."
-    Write-Host ""
-    while ($choice -notmatch "[y|n]") {
-        $choice = read-host "Would you like to install 7-Zip now? (Y/N)"
-    }
-    if ($choice -eq "y") {
-        # Download and silently install 7-zip if the user presses y
+    # Download and silently install 7-zip if software is not installed
         $7zip = "https://www.7-zip.org/a/7z1900-x64.exe"
         $output = "$PSScriptRoot\7Zip.exe"
         (New-Object System.Net.WebClient).DownloadFile($7zip, $output)
@@ -43,11 +37,6 @@ else {
         Start-Process "7Zip.exe" -Wait -ArgumentList "/S"
         # Delete the installer once it completes
         Remove-Item "$PSScriptRoot\7Zip.exe"
-    }
-    else {
-        Write-Host "Press any key to exit..."
-        $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-        exit
     }
 }
    
@@ -146,9 +135,6 @@ Write-Host "Download finished, extracting the files now..."
 if ($7zipinstalled) {
     Start-Process -FilePath $archiverProgram -NoNewWindow -ArgumentList "x -bso0 -bsp1 -bse1 -aoa $dlFile $filesToExtract -o""$extractFolder""" -wait
 }
-elseif ($archiverProgram -eq $winrarpath) {
-    Start-Process -FilePath $archiverProgram -NoNewWindow -ArgumentList 'x $dlFile $extractFolder -IBCK $filesToExtract' -wait
-}
 else {
     Write-Host "Something went wrong. No archive program detected. This should not happen."
     Write-Host "Press any key to exit..."
@@ -169,24 +155,9 @@ if ($clean) {
 }
 Start-Process -FilePath "$extractFolder\setup.exe" -ArgumentList $install_args -wait
 
-
-# Creating a scheduled task if the $scheduleTask varible is set to TRUE
-#if ($scheduleTask) {
-#    Write-Host "Creating A Scheduled Task..."
-#    New-Item C:\Task\ -type directory 2>&1 | Out-Null
-#    Copy-Item .\Nvidia.ps1 -Destination C:\Task\ 2>&1 | Out-Null
-#   $taskname = "Nvidia-Updater"
-#    $description = "Update Your Driver!"
-#    $action = New-ScheduledTaskAction -Execute "C:\Task\Nvidia.ps1"
-#    $trigger = New-ScheduledTaskTrigger -Weekly -WeeksInterval $scheduleTask -DaysOfWeek $scheduleDay -At $scheduleTime
-#    Register-ScheduledTask -TaskName $taskname -Action $action -Trigger $trigger -Description $description 2>&1 | Out-Null
-#}
-
-
 # Cleaning up downloaded files
 Write-Host "Deleting downloaded files"
 Remove-Item $nvidiaTempFolder -Recurse -Force
-
 
 # Driver installed, requesting a reboot
 Write-Host -ForegroundColor Green "Driver installed. You may need to reboot to finish installation."
