@@ -1,7 +1,5 @@
 # This script is designed to install the bare essential Nvidia drivers
 # This will not install Nvidia GeForce or Shadowplay
-# There are options below for customizing the install
-# The defaults should suffice for most users
 
 
 # Installer options
@@ -9,12 +7,6 @@ param (
     [switch]$clean = $false, # Will delete old drivers and install the new ones
     [string]$folder = "$env:temp"   # Downloads and extracts the driver here
 )
-
-
-$scheduleTask = $false  # Creates a Scheduled Task to run to check for driver updates
-$scheduleDay = "Sunday" # When should the scheduled task run (Default = Sunday)
-$scheduleTime = "12pm"  # The time the scheduled task should run (Default = 12pm)
-
 
 # Checking if 7zip or WinRAR are installed
 # Check 7zip install path on registry
@@ -38,23 +30,6 @@ else {
         # Delete the installer once it completes
         Remove-Item "$PSScriptRoot\7Zip.exe"
     }
-
-   
-
-
-# Checking currently installed driver version
-#Write-Host "Attempting to detect currently installed driver version..."
-#try {
-#    $VideoController = Get-WmiObject -ClassName Win32_VideoController | Where-Object { $_.Name -match "NVIDIA" }
-#    $ins_version = ($VideoController.DriverVersion.Replace('.', '')[-5..-1] -join '').insert(3, '.')
-#}
-#catch {
-#    Write-Host -ForegroundColor Yellow "Unable to detect a compatible Nvidia device."
-#    Write-Host "Press any key to exit..."
-#    $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-#    exit
-#}
-#Write-Host "Installed version `t$ins_version"
 
 
 # Checking latest driver version
@@ -160,15 +135,8 @@ Write-Host "Deleting downloaded files"
 Remove-Item $nvidiaTempFolder -Recurse -Force
 
 # Driver installed, requesting a reboot
-Write-Host -ForegroundColor Green "Driver installed. You may need to reboot to finish installation."
-Write-Host "Would you like to reboot now?"
-$Readhost = Read-Host "(Y/N) Default is no"
-Switch ($ReadHost) {
-    Y { Write-host "Rebooting now..."; Start-Sleep -s 2; Restart-Computer }
-    N { Write-Host "Exiting script in 5 seconds."; Start-Sleep -s 5 }
-    Default { Write-Host "Exiting script in 5 seconds"; Start-Sleep -s 5 }
-}
-
+Write-Host -ForegroundColor Green "Driver installed. A reboot is recommended."
+Write-Host "Exiting script in 5 seconds."; Start-Sleep -s 5
 
 # End of script
 exit
