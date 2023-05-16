@@ -63,18 +63,18 @@ else {
 
 
 # Checking currently installed driver version
-Write-Host "Attempting to detect currently installed driver version..."
-try {
-    $VideoController = Get-WmiObject -ClassName Win32_VideoController | Where-Object { $_.Name -match "NVIDIA" }
-    $ins_version = ($VideoController.DriverVersion.Replace('.', '')[-5..-1] -join '').insert(3, '.')
-}
-catch {
-    Write-Host -ForegroundColor Yellow "Unable to detect a compatible Nvidia device."
-    Write-Host "Press any key to exit..."
-    $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    exit
-}
-Write-Host "Installed version `t$ins_version"
+#Write-Host "Attempting to detect currently installed driver version..."
+#try {
+#    $VideoController = Get-WmiObject -ClassName Win32_VideoController | Where-Object { $_.Name -match "NVIDIA" }
+#    $ins_version = ($VideoController.DriverVersion.Replace('.', '')[-5..-1] -join '').insert(3, '.')
+#}
+#catch {
+#    Write-Host -ForegroundColor Yellow "Unable to detect a compatible Nvidia device."
+#    Write-Host "Press any key to exit..."
+#    $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+#    exit
+#}
+#Write-Host "Installed version `t$ins_version"
 
 
 # Checking latest driver version
@@ -180,16 +180,16 @@ Start-Process -FilePath "$extractFolder\setup.exe" -ArgumentList $install_args -
 
 
 # Creating a scheduled task if the $scheduleTask varible is set to TRUE
-if ($scheduleTask) {
-    Write-Host "Creating A Scheduled Task..."
-    New-Item C:\Task\ -type directory 2>&1 | Out-Null
-    Copy-Item .\Nvidia.ps1 -Destination C:\Task\ 2>&1 | Out-Null
-    $taskname = "Nvidia-Updater"
-    $description = "Update Your Driver!"
-    $action = New-ScheduledTaskAction -Execute "C:\Task\Nvidia.ps1"
-    $trigger = New-ScheduledTaskTrigger -Weekly -WeeksInterval $scheduleTask -DaysOfWeek $scheduleDay -At $scheduleTime
-    Register-ScheduledTask -TaskName $taskname -Action $action -Trigger $trigger -Description $description 2>&1 | Out-Null
-}
+#if ($scheduleTask) {
+#    Write-Host "Creating A Scheduled Task..."
+#    New-Item C:\Task\ -type directory 2>&1 | Out-Null
+#    Copy-Item .\Nvidia.ps1 -Destination C:\Task\ 2>&1 | Out-Null
+#   $taskname = "Nvidia-Updater"
+#    $description = "Update Your Driver!"
+#    $action = New-ScheduledTaskAction -Execute "C:\Task\Nvidia.ps1"
+#    $trigger = New-ScheduledTaskTrigger -Weekly -WeeksInterval $scheduleTask -DaysOfWeek $scheduleDay -At $scheduleTime
+#    Register-ScheduledTask -TaskName $taskname -Action $action -Trigger $trigger -Description $description 2>&1 | Out-Null
+#}
 
 
 # Cleaning up downloaded files
