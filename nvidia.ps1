@@ -38,7 +38,7 @@ else {
         # Delete the installer once it completes
         Remove-Item "$PSScriptRoot\7Zip.exe"
     }
-}
+
    
 
 
