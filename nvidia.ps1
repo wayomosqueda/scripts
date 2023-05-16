@@ -28,15 +28,6 @@ if ((Test-path HKLM:\SOFTWARE\7-Zip\) -eq $true) {
         $7zipinstalled = $true 
     }    
 }
-elseif ($7zipinstalled -eq $false) {
-    if ((Test-path HKLM:\SOFTWARE\WinRAR) -eq $true) {
-        $winrarpath = Get-ItemProperty -Path HKLM:\SOFTWARE\WinRAR -Name exe64 
-        $winrarpath = $winrarpath.exe64
-        if ((Test-Path $winrarpath) -eq $true) {
-            $archiverProgram = $winrarpath
-        }
-    }
-}
 else {
     Write-Host "Sorry, but it looks like you don't have a supported archiver."
     Write-Host ""
