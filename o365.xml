@@ -1,0 +1,35 @@
+<Configuration ID="92747b60-153f-496e-990d-1b9bd92befda">
+  <Info Description="" />
+  <Add OfficeClientEdition="64" Channel="Current" SourcePath="C:\Downloads" AllowCdnFallback="TRUE" MigrateArch="TRUE">
+    <Product ID="O365BusinessRetail">
+      <Language ID="es-mx" />
+      <Language ID="en-us" />
+      <Language ID="MatchPreviousMSI" />
+      <ExcludeApp ID="Access" />
+      <ExcludeApp ID="Groove" />
+      <ExcludeApp ID="Lync" />
+      <ExcludeApp ID="Publisher" />
+    </Product>
+    <Product ID="LanguagePack">
+      <Language ID="es-mx" />
+      <Language ID="en-us" />
+      <Language ID="MatchPreviousMSI" />
+    </Product>
+    <Product ID="ProofingTools">
+      <Language ID="en-us" />
+    </Product>
+  </Add>
+  <Updates Enabled="TRUE" />
+  <RemoveMSI>
+    <IgnoreProduct ID="PrjPro" />
+    <IgnoreProduct ID="PrjStd" />
+  </RemoveMSI>
+  <AppSettings>
+    <Setup Name="Company" Value="International Industrial Contracting Corporation" />
+    <User Key="software\microsoft\office\16.0\common\toolbars" Name="screentipscheme" Value="2" Type="REG_DWORD" App="office16" Id="L_ShowScreenTips" />
+    <User Key="software\microsoft\office\16.0\excel\options" Name="defaultformat" Value="51" Type="REG_DWORD" App="excel16" Id="L_SaveExcelfilesas" />
+    <User Key="software\microsoft\office\16.0\powerpoint\options" Name="defaultformat" Value="27" Type="REG_DWORD" App="ppt16" Id="L_SavePowerPointfilesas" />
+    <User Key="software\microsoft\office\16.0\word\options" Name="defaultformat" Value="" Type="REG_SZ" App="word16" Id="L_SaveWordfilesas" />
+  </AppSettings>
+  <Display Level="None" AcceptEULA="TRUE" />
+</Configuration>
