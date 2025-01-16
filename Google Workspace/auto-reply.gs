@@ -1,7 +1,6 @@
 /*
 Purpose of the Script:
 Autoreply to the 'reply-to' field when a user request access to a private Shared Drive
-Workspace Admins: https://workspaceadmins.org
 */
 
 function addtoGroup() {
@@ -13,9 +12,13 @@ function addtoGroup() {
       var messages = threads[i].getMessages();
       if (messages.length > 0) {  // There is at least one message, proceed to process it
         var ReplyToEmail = messages[0].getReplyTo().match(/([^<]+@[^>]+)/)[1];
-        messages[0].reply("Este es un correo automatizado. \n\nSi usted solicitó acceso a una unidad compartida, le solicitamos ponerse en contacto con un miembro del grupo al cual desea acceder para [...]", {
-          cc: "mexico@schoenstatt.mx"
-        });
+        GmailApp.sendEmail(ReplyToEmail, "Acceso a Unidad Compartida", 
+          "Este es un correo automatizado.\n\nSi usted solicitó acceso a una unidad compartida o a una carpeta, le solicitamos ponerse en contacto con un miembro del grupo al cual desea acceder para para que le autorice el acceso.\n\nEn caso de requerir asistencia específica para algún caso, puede escribir a: ayuda@schoenstatt.mx y nos pondremos en contacto lo antes posible.\n\nGracias.", 
+          {
+            name: "Schoenstatt México",
+            cc: ""
+          }
+        );
         
         // Mark as read and move to trash
         messages[0].markRead();
