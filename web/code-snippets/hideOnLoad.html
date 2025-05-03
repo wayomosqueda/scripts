@@ -1,0 +1,12 @@
+<script>
+	(function ($) {
+		$(document).ready(function () {
+			$('.hideOnPageLoad').hide();
+			$('#filtrosEventos').change(function() {
+				$('.hideOnPageLoad').hide();
+				$selectedValue = $(this).val();
+				$('#'+$selectedValue).toggle();
+			})
+		})
+	})(jQuery);
+</script>
