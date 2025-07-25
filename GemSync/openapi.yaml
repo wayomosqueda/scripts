@@ -1,0 +1,12 @@
+openapi: 3.1.0
+info:
+  title: LectorDeContenidoDeGoogleDoc
+  description: Obtiene el texto completo de un Google Doc específico en tiempo real.
+  version: v1.0.0
+servers:
+  - url: https://script.google.com/macros/s/AKfycbyZq2JM4NohCcy2rf3GQObf-irmU-Aj_OBh5ohhSYDzKRbzAEStprVhd1w-oNbbVICxFw/exec
+paths:
+  /exec:
+    get:
+      description: Obtiene el contenido actual del documento de Google.
+      operationId: obtenerContenidoDelGoogleDoc
